@@ -147,6 +147,16 @@ func pruneEmptyIncludeSelectors(ctx context.Context, set *customfield.NestedObje
 			c.Geo = nil
 		}
 
+		if c.DevicePosture != nil && isNullUnknownOrEmptyString(c.DevicePosture.IntegrationUID) {
+			c.DevicePosture = nil
+		}
+		if c.OIDC != nil &&
+			isNullUnknownOrEmptyString(c.OIDC.ClaimName) &&
+			isNullUnknownOrEmptyString(c.OIDC.ClaimValue) &&
+			isNullUnknownOrEmptyString(c.OIDC.IdentityProviderID) {
+			c.OIDC = nil
+		}
+
 		if reflect.DeepEqual(c, ZeroTrustAccessPolicyIncludeModel{}) {
 			continue
 		}
